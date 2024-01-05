@@ -12,28 +12,3 @@
   text-align: center;
   min-height: 100vh;
 }
-
-.app__title {
-  margin-bottom: 20px;
-  font-size: 3rem;
-  line-height: 2.5rem;
-  font-weight: 700;
-  color: rgb(17 24 39);
-}
-
-.app__description {
-  margin-bottom: 20px;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-  color: rgb(55 65 81);
-}
-
-.app__start-button {
-  padding-left: 2rem;
-  padding-right: 2rem;
-  height: 2.5rem;
-  background-color: #111827;
-  color: #f3f4f6;
-  border-radius: 6px;
-  font-weight: 500px;
-}
