@@ -1,14 +1,24 @@
 import './App.css';
 import Card from './Card';
 import Banner from './Banner';
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 
+export const GameContext = createContext();
+
+// App.js
 function App() {
   const [hasGameStarted, setHasGameStarted] = useState(false)
   const [bannerTitle, setBannerTitle] = useState('Chinese Character Test')
-  const [bannerDescriotion, setBannerDescription] = useState('Test your knowledge of Chinese characters in this fun and interactive game. Click the button below to start the game.')
+  const [bannerDescription, setBannerDescription] = useState('Test your knowledge of Chinese characters in this fun and interactive game. Click the button below to start the game.')
   const [bannerButtonText, setBannerButtonText] = useState('Start Game')
+  const [selectedCardIds, setSelectedCardIds] = useState([]);
 
+  const cardList = [
+    { id: 1, chineseCharacter: '中' },
+    { id: 2, chineseCharacter: '国' },
+    { id: 3, chineseCharacter: '字' },
+    { id: 4, chineseCharacter: '测' },
+  ];
 
   const handleStartGame = () => {
     setHasGameStarted(true)
@@ -16,14 +26,22 @@ function App() {
     setBannerButtonText("See Results")
   }
 
+  const handleSeeResults = () => {
+    setBannerDescription(`You have selected ${selectedCardIds.length} out of ${cardList.length} cards.`)
+  }
+
   return (
     <div className="app">
       <Banner
         title={bannerTitle}
-        description={bannerDescriotion}
-        buttonText={bannerButtonText} handleStartGame={handleStartGame}
+        description={bannerDescription}
+        buttonText={bannerButtonText}
+        handleStartGame={hasGameStarted ? handleSeeResults : handleStartGame}
       />
-      {hasGameStarted && <Card />}
+      {hasGameStarted && <Card
+        selectedCardIds={selectedCardIds}
+        setSelectedCardIds={setSelectedCardIds}
+        cardList={cardList} />}
     </div>
   );
 }

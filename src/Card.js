@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Card.css';
 
-function Card() {
-  const [selectedCardIds, setSelectedCardIds] = useState([]);
-
+function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
+  
   const handleClick = (cardId) => {
     setSelectedCardIds((prevSelectedCardIds) => {
       if (prevSelectedCardIds.includes(cardId)) {
@@ -13,13 +12,6 @@ function Card() {
       }
     });
   };
-
-  const cardList = [
-    { id: 1, chineseCharacter: '中' },
-    { id: 2, chineseCharacter: '国' },
-    { id: 3, chineseCharacter: '字' },
-    { id: 4, chineseCharacter: '测' },
-  ];
 
   return (
     <div className="card__row">
