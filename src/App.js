@@ -28,6 +28,14 @@ function App() {
 
   const handleSeeResults = () => {
     setBannerDescription(`You have selected ${selectedCardIds.length} out of ${cardList.length} cards.`)
+    setBannerButtonText("Start Again")
+  }
+
+  const handleStartAgain = () => {
+    setHasGameStarted(true)
+    setBannerDescription('Test your knowledge of Chinese characters in this fun and interactive game. Click the button below to start the game.')
+    setBannerButtonText("See Results")
+    setSelectedCardIds([])
   }
 
   return (
@@ -36,7 +44,7 @@ function App() {
         title={bannerTitle}
         description={bannerDescription}
         buttonText={bannerButtonText}
-        handleStartGame={hasGameStarted ? handleSeeResults : handleStartGame}
+        handleStartGame={bannerButtonText === "Start Again" ? handleStartAgain : (hasGameStarted ? handleSeeResults : handleStartGame)}
       />
       {hasGameStarted && <Card
         selectedCardIds={selectedCardIds}
