@@ -13,3 +13,8 @@
     font-size: 5rem;
     font-weight: 700;
 }
+
+.card--clicked {
+    /* background-color: #f3f4f6; */
+    background-color: #eee;
+}
