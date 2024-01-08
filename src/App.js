@@ -23,7 +23,7 @@ function App() {
   const [hasGameStarted, setHasGameStarted] = useState(false)
   const [bannerTitle, setBannerTitle] = useState(GAME_STATES.start.bannerTitle)
   const [bannerDescription, setBannerDescription] = useState(GAME_STATES.start.bannerDescription)
-  const [bannerButtonText, setBannerButtonText] = useState(GAME_STATES.start.bannerButtonText )
+  const [bannerButtonText, setBannerButtonText] = useState(GAME_STATES.start.bannerButtonText)
   const [selectedCardIds, setSelectedCardIds] = useState([]);
 
   const cardList = [
@@ -31,6 +31,10 @@ function App() {
     { id: 2, chineseCharacter: '国' },
     { id: 3, chineseCharacter: '字' },
     { id: 4, chineseCharacter: '测' },
+    { id: 5, chineseCharacter: '测' },
+    { id: 6, chineseCharacter: '测' },
+    { id: 7, chineseCharacter: '测' },
+    { id: 8, chineseCharacter: '测' },
   ];
 
   const handleStartGame = () => {
@@ -40,8 +44,9 @@ function App() {
   }
 
   const handleSeeResults = () => {
-    setBannerDescription(`You have selected ${selectedCardIds.length} out of ${cardList.length} cards.`)
+    setBannerDescription(`You know ${selectedCardIds.length} out of ${cardList.length} characters.`)
     setBannerButtonText(GAME_STATES.results.bannerButtonText)
+    setHasGameStarted(false)
   }
 
   const handleStartAgain = () => {

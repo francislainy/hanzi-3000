@@ -2,7 +2,7 @@ import React from 'react';
 import './Card.css';
 
 function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
-  
+
   const handleClick = (cardId) => {
     setSelectedCardIds((prevSelectedCardIds) => {
       if (prevSelectedCardIds.includes(cardId)) {

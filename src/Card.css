@@ -18,3 +18,10 @@
     /* background-color: #f3f4f6; */
     background-color: #eee;
 }
+
+.card__row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  
