@@ -2,6 +2,7 @@ import './App.css';
 import Card from './Card';
 import Banner from './Banner';
 import { useState } from 'react';
+import Pagination from './Pagination';
 
 function App() {
   const GAME_STATES = {
@@ -31,11 +32,17 @@ function App() {
     { id: 2, chineseCharacter: '国' },
     { id: 3, chineseCharacter: '字' },
     { id: 4, chineseCharacter: '测' },
-    { id: 5, chineseCharacter: '测' },
-    { id: 6, chineseCharacter: '测' },
-    { id: 7, chineseCharacter: '测' },
-    { id: 8, chineseCharacter: '测' },
+    { id: 5, chineseCharacter: '奥' },
+    { id: 6, chineseCharacter: '爱' },
+    { id: 7, chineseCharacter: '图' },
+    { id: 8, chineseCharacter: '猫' },
   ];
+
+  const CARDS_PER_PAGE = 3;
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastCard = currentPage * CARDS_PER_PAGE;
+  const indexOfFirstCard = indexOfLastCard - CARDS_PER_PAGE;
+  const currentCards = cardList.slice(indexOfFirstCard, indexOfLastCard);
 
   const handleStartGame = () => {
     setHasGameStarted(true)
@@ -54,7 +61,10 @@ function App() {
     setBannerDescription(GAME_STATES.playing.bannerDescription)
     setBannerButtonText(GAME_STATES.playing.bannerButtonText)
     setSelectedCardIds([])
+    setCurrentPage(1)
   }
+
+  const totalPages = Math.ceil(cardList.length / CARDS_PER_PAGE);
 
   return (
     <div className="app">
@@ -64,10 +74,17 @@ function App() {
         buttonText={bannerButtonText}
         handleStartGame={bannerButtonText === "Start Again" ? handleStartAgain : (hasGameStarted ? handleSeeResults : handleStartGame)}
       />
-      {hasGameStarted && <Card
-        selectedCardIds={selectedCardIds}
-        setSelectedCardIds={setSelectedCardIds}
-        cardList={cardList} />}
+      {hasGameStarted && <>
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage} />
+        <Card
+          selectedCardIds={selectedCardIds}
+          setSelectedCardIds={setSelectedCardIds}
+          cardList={currentCards} />
+      </>
+      }
     </div>
   );
 }
