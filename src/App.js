@@ -3,8 +3,10 @@ import Card from './Card';
 import Banner from './Banner';
 import { useState } from 'react';
 import Pagination from './Pagination';
+import cardList from './cardList.json';
 
 function App() {
+
   const GAME_STATES = {
     'start': {
       bannerDescription: 'Test your knowledge of Chinese characters in this fun and interactive game. Click the button below to start the game.',
@@ -26,17 +28,6 @@ function App() {
   const [bannerDescription, setBannerDescription] = useState(GAME_STATES.start.bannerDescription)
   const [bannerButtonText, setBannerButtonText] = useState(GAME_STATES.start.bannerButtonText)
   const [selectedCardIds, setSelectedCardIds] = useState([]);
-
-  const cardList = [
-    { id: 1, chineseCharacter: '中' },
-    { id: 2, chineseCharacter: '国' },
-    { id: 3, chineseCharacter: '字' },
-    { id: 4, chineseCharacter: '测' },
-    { id: 5, chineseCharacter: '奥' },
-    { id: 6, chineseCharacter: '爱' },
-    { id: 7, chineseCharacter: '图' },
-    { id: 8, chineseCharacter: '猫' },
-  ];
 
   const CARDS_PER_PAGE = 3;
   const [currentPage, setCurrentPage] = useState(1);

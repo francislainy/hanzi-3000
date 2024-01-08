@@ -4,8 +4,6 @@ import './Card.css';
 function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
   const [hoveredCard, setHoveredCard] = useState(null);
 
-
-
   const handleClick = (cardId) => {
     setSelectedCardIds((prevSelectedCardIds) => {
       if (prevSelectedCardIds.includes(cardId)) {
@@ -28,15 +26,13 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
         'X-RapidAPI-Host': 'chinese-english-dictionary-api.p.rapidapi.com'
       }
     })
-    .then(response => response.json())
-    .then(data => {
-      const definitions = data.entries.flatMap(entry => entry.definitions);
-      alert(`Definition of card ${chineseCharacter}: ${definitions.join(', ')}`);
-    })
-    .catch(error => console.error('Error:', error));
+      .then(response => response.json())
+      .then(data => {
+        const definitions = data.entries.flatMap(entry => entry.definitions);
+        alert(`Definition for character ${chineseCharacter}: ${definitions.join(', ')}`);
+      })
+      .catch(error => console.error('Error:', error));
   };
-
-
 
   return (
     <div className="card__row">

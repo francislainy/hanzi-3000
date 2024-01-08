@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "chineseCharacter": "中"
+    },
+    {
+        "id": 2,
+        "chineseCharacter": "国"
+    },
+    {
+        "id": 3,
+        "chineseCharacter": "字"
+    },
+    {
+        "id": 4,
+        "chineseCharacter": "测"
+    },
+    {
+        "id": 5,
+        "chineseCharacter": "奥"
+    },
+    {
+        "id": 6,
+        "chineseCharacter": "爱"
+    },
+    {
+        "id": 7,
+        "chineseCharacter": "图"
+    },
+    {
+        "id": 8,
+        "chineseCharacter": "猫"
+    }
+]
