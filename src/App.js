@@ -3,7 +3,7 @@ import Card from './Card';
 import Banner from './Banner';
 import { useState } from 'react';
 import Pagination from './Pagination';
-import cardList from './cardList.json';
+import characterList from './characterList.json';
 
 function App() {
 
@@ -29,11 +29,11 @@ function App() {
   const [bannerButtonText, setBannerButtonText] = useState(GAME_STATES.start.bannerButtonText)
   const [selectedCardIds, setSelectedCardIds] = useState([]);
 
-  const CARDS_PER_PAGE = 3;
+  const CARDS_PER_PAGE = 150;
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastCard = currentPage * CARDS_PER_PAGE;
   const indexOfFirstCard = indexOfLastCard - CARDS_PER_PAGE;
-  const currentCards = cardList.slice(indexOfFirstCard, indexOfLastCard);
+  const currentCards = characterList.slice(indexOfFirstCard, indexOfLastCard);
 
   const handleStartGame = () => {
     setHasGameStarted(true)
@@ -42,7 +42,7 @@ function App() {
   }
 
   const handleSeeResults = () => {
-    setBannerDescription(`You know ${selectedCardIds.length} out of ${cardList.length} characters.`)
+    setBannerDescription(`You know ${selectedCardIds.length} out of ${characterList.length} characters.`)
     setBannerButtonText(GAME_STATES.results.bannerButtonText)
     setHasGameStarted(false)
   }
@@ -55,7 +55,7 @@ function App() {
     setCurrentPage(1)
   }
 
-  const totalPages = Math.ceil(cardList.length / CARDS_PER_PAGE);
+  const totalPages = Math.ceil(characterList.length / CARDS_PER_PAGE);
 
   return (
     <div className="app">

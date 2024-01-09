@@ -44,9 +44,9 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
           onMouseLeave={() => setHoveredCard(null)}
           key={card.id}
         >
-          <span className="card__chinese-character">{card.chineseCharacter}</span>
+          <span className="card__chinese-character">{card.simplified}</span>
           {hoveredCard === card.id && (
-            <button className="def-button" onClick={(e) => { e.stopPropagation(); handleDefClick(card.chineseCharacter); }}>Def.</button>
+            <button className="def-button" onClick={(e) => { e.stopPropagation(); handleDefClick(card.simplified); }}>Def.</button>
           )}
         </div>
       ))}
