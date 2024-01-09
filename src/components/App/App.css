@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+}
+
+.app {
+  background-color: #f3f4f6;
+  font-family: "Roboto", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.app__gameStarted {
+    padding-top: 90px;
+    padding-bottom: 50px;
+}

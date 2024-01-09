@@ -5,16 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d6a1a2b-a3c0-4aca-a856-6946bb32ec36" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Banner.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Banner.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Card.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Card.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pagination.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pagination.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Toast.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cardList.json" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/App/App.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/App/App.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Banner/Banner.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Banner/Banner.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Card/Card.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Card/Card.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Pagination/Pagination.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Pagination/Pagination.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Toast/Toast.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Toast/Toast.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +63,7 @@
       <workItem from="1704711282984" duration="17000" />
       <workItem from="1704713405012" duration="1379000" />
       <workItem from="1704728871114" duration="1189000" />
-      <workItem from="1704781951369" duration="3701000" />
+      <workItem from="1704781951369" duration="4348000" />
     </task>
     <servers />
   </component>
