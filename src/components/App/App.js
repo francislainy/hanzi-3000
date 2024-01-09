@@ -6,13 +6,13 @@ import Card from "../Card/Card";
 import Pagination from '../Pagination/Pagination';
 function App() {
 
-  const GAME_STATES = {
+  const TEST_STATES = {
     'start': {
-      bannerDescription: 'Test your knowledge of Chinese characters in this fun and interactive game. Click the button below to start the game.',
-      bannerButtonText: 'Start Game',
+      bannerDescription: 'Test your knowledge of Chinese characters in this fun and interactive game. Click the button below to start the test.',
+      bannerButtonText: 'Start Test',
       bannerTitle: 'Chinese Character Test',
     },
-    'playing': {
+    'inProgress': {
       bannerDescription: "Click on the characters you know. Once you're done, click the button below to see your total.",
       bannerButtonText: 'See Results',
     },
@@ -22,10 +22,10 @@ function App() {
     },
   };
 
-  const [hasGameStarted, setHasGameStarted] = useState(false)
-  const [bannerTitle, setBannerTitle] = useState(GAME_STATES.start.bannerTitle)
-  const [bannerDescription, setBannerDescription] = useState(GAME_STATES.start.bannerDescription)
-  const [bannerButtonText, setBannerButtonText] = useState(GAME_STATES.start.bannerButtonText)
+  const [hasTestStarted, setHasTestStarted] = useState(false)
+  const [bannerTitle, setBannerTitle] = useState(TEST_STATES.start.bannerTitle)
+  const [bannerDescription, setBannerDescription] = useState(TEST_STATES.start.bannerDescription)
+  const [bannerButtonText, setBannerButtonText] = useState(TEST_STATES.start.bannerButtonText)
   const [selectedCardIds, setSelectedCardIds] = useState([]);
 
   const CARDS_PER_PAGE = 150;
@@ -34,22 +34,22 @@ function App() {
   const indexOfFirstCard = indexOfLastCard - CARDS_PER_PAGE;
   const currentCards = characterList.slice(indexOfFirstCard, indexOfLastCard);
 
-  const handleStartGame = () => {
-    setHasGameStarted(true)
-    setBannerDescription(GAME_STATES.playing.bannerDescription)
-    setBannerButtonText(GAME_STATES.playing.bannerButtonText)
+  const handleStartTest = () => {
+    setHasTestStarted(true)
+    setBannerDescription(TEST_STATES.inProgress.bannerDescription)
+    setBannerButtonText(TEST_STATES.inProgress.bannerButtonText)
   }
 
   const handleSeeResults = () => {
     setBannerDescription(`You know ${selectedCardIds.length} out of ${characterList.length} characters.`)
-    setBannerButtonText(GAME_STATES.results.bannerButtonText)
-    setHasGameStarted(false)
+    setBannerButtonText(TEST_STATES.results.bannerButtonText)
+    setHasTestStarted(false)
   }
 
   const handleStartAgain = () => {
-    setHasGameStarted(true)
-    setBannerDescription(GAME_STATES.playing.bannerDescription)
-    setBannerButtonText(GAME_STATES.playing.bannerButtonText)
+    setHasTestStarted(true)
+    setBannerDescription(TEST_STATES.inProgress.bannerDescription)
+    setBannerButtonText(TEST_STATES.inProgress.bannerButtonText)
     setSelectedCardIds([])
     setCurrentPage(1)
   }
@@ -57,14 +57,14 @@ function App() {
   const totalPages = Math.ceil(characterList.length / CARDS_PER_PAGE);
 
   return (
-    <div className={hasGameStarted ? "app app__gameStarted" : "app"}>
+    <div className={hasTestStarted ? "app app__testStarted" : "app"}>
       <Banner
         title={bannerTitle}
         description={bannerDescription}
         buttonText={bannerButtonText}
-        handleStartGame={bannerButtonText === "Start Again" ? handleStartAgain : (hasGameStarted ? handleSeeResults : handleStartGame)}
+        handleStartTest={bannerButtonText === "Start Again" ? handleStartAgain : (hasTestStarted ? handleSeeResults : handleStartTest)}
       />
-      {hasGameStarted && <>
+      {hasTestStarted && <>
         <Pagination
           totalPages={totalPages}
           currentPage={currentPage}
