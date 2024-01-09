@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Card.css';
+import Toast from './Toast';
 
 function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
   const [hoveredCard, setHoveredCard] = useState(null);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   const handleClick = (cardId) => {
     setSelectedCardIds((prevSelectedCardIds) => {
@@ -15,9 +18,18 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
   };
 
   const handleDefClick = (character) => {
-    const definitions = JSON.parse(character.definitions.replace(/'/g, '"'));
-    alert(`Definition for character ${character.simplified} (${character.pinyinDiacritic}): ${definitions.join(', ')}`);
+    const definitions = JSON.parse(character.definitionsDiacritic.replace(/'/g, '"'));
+    setToastMessage(`${character.simplified} (${character.pinyinDiacritic}): ${definitions.join(', ')}`);
+    setShowToast(true);
   };
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => setShowToast(false), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
+
 
   return (
     <div className="card__row">
@@ -29,6 +41,8 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
           onMouseLeave={() => setHoveredCard(null)}
           key={card.id}
         >
+                {showToast && <Toast message={toastMessage} />}
+
           <span className="card__chinese-character">{card.simplified}</span>
           {hoveredCard === card.id && (
             <button className="def-button" onClick={(e) => { e.stopPropagation(); handleDefClick(card); }}>Def.</button>
