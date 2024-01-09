@@ -5,7 +5,8 @@
   border: 1px solid white;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   display: inline-block;
-  margin-right: 30px;
+  margin-right: 15px;
+  margin-left: 15px;
   padding: 60px;
   border-radius: 3px;
 }
@@ -16,7 +17,6 @@
 }
 
 .card--clicked {
-  /* background-color: #f3f4f6; */
   background-color: #eee;
 }
 
@@ -25,6 +25,18 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
 }
+
+
+/* This media query applies when the device width is 600px or less */
+@media (max-width: 600px) {
+  .card__row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .card {
+    padding: 30px;
+  }
+}
+
 
 .def-button {
   position: absolute;

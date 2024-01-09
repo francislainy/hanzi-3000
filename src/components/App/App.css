@@ -3,6 +3,8 @@
 }
 
 .app {
+  padding-left: 20px;
+  padding-right: 20px;
   background-color: #f3f4f6;
   font-family: "Roboto", sans-serif;
   display: flex;
