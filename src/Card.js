@@ -14,24 +14,9 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
     });
   };
 
-  const handleDefClick = (chineseCharacter) => {
-    const url = new URL('https://chinese-english-dictionary-api.p.rapidapi.com/definition');
-    url.search = new URLSearchParams({ simplified: chineseCharacter, exact: true });
-  
-    fetch(url, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-RapidAPI-Key': 'dca7d0520dmshbffb5c1b0b6b9e1p1a0763jsn1204add21968',
-        'X-RapidAPI-Host': 'chinese-english-dictionary-api.p.rapidapi.com'
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        const definitions = data.entries.flatMap(entry => entry.definitions);
-        alert(`Definition for character ${chineseCharacter}: ${definitions.join(', ')}`);
-      })
-      .catch(error => console.error('Error:', error));
+  const handleDefClick = (character) => {
+    const definitions = JSON.parse(character.definitions.replace(/'/g, '"'));
+    alert(`Definition for character ${character.simplified} (${character.pinyinDiacritic}): ${definitions.join(', ')}`);
   };
 
   return (
@@ -46,7 +31,7 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
         >
           <span className="card__chinese-character">{card.simplified}</span>
           {hoveredCard === card.id && (
-            <button className="def-button" onClick={(e) => { e.stopPropagation(); handleDefClick(card.simplified); }}>Def.</button>
+            <button className="def-button" onClick={(e) => { e.stopPropagation(); handleDefClick(card); }}>Def.</button>
           )}
         </div>
       ))}
