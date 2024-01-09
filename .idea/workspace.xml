@@ -5,16 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d6a1a2b-a3c0-4aca-a856-6946bb32ec36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/App/App.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/App/App.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Banner/Banner.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Banner/Banner.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Card/Card.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Card/Card.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Pagination/Pagination.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Pagination/Pagination.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Toast/Toast.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Toast/Toast.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,20 +24,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/francislainycampos/WebstormProjects/projects/mandarin-game&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/francislainycampos/WebstormProjects/projects/hanzi-3000",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components" />
@@ -64,6 +56,7 @@
       <workItem from="1704713405012" duration="1379000" />
       <workItem from="1704728871114" duration="1189000" />
       <workItem from="1704781951369" duration="4348000" />
+      <workItem from="1704795649800" duration="1134000" />
     </task>
     <servers />
   </component>
