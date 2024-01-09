@@ -18,7 +18,18 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
   };
 
   const handleDefClick = (character) => {
-    const definitions = JSON.parse(character.definitionsDiacritic.replace(/'/g, '"'));
+    // const definitions = JSON.parse(character.definitionsDiacritic.replace(/'/g, '"'));
+    let definitions;
+    if (Array.isArray(character.definitionsDiacritic)) {
+      definitions = character.definitionsDiacritic;
+    } else {
+      try {
+        definitions = JSON.parse(character.definitionsDiacritic.replace(/'/g, '"'));
+      } catch (error) {
+        console.error('Error parsing definitionsDiacritic:', error);
+      }
+    }
+
     setToastMessage(`${character.simplified} (${character.pinyinDiacritic}): ${definitions.join(', ')}`);
     setShowToast(true);
   };
