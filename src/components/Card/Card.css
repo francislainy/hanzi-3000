@@ -30,13 +30,14 @@
 /* This media query applies when the device width is 600px or less */
 @media (max-width: 600px) {
   .card__row {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
   .card {
     padding: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
   }
 }
-
 
 .def-button {
   position: absolute;
