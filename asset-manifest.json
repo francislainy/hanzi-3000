@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/hanzi-3000/static/css/main.57557a5d.css",
+    "main.js": "/hanzi-3000/static/js/main.d36f134c.js",
+    "index.html": "/hanzi-3000/index.html",
+    "main.57557a5d.css.map": "/hanzi-3000/static/css/main.57557a5d.css.map",
+    "main.d36f134c.js.map": "/hanzi-3000/static/js/main.d36f134c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.57557a5d.css",
+    "static/js/main.d36f134c.js"
+  ]
+}
