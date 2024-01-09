@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/hanzi-3000/static/css/main.8c13f333.css",
+    "main.css": "/hanzi-3000/static/css/main.c939c38a.css",
     "main.js": "/hanzi-3000/static/js/main.66556931.js",
     "index.html": "/hanzi-3000/index.html",
-    "main.8c13f333.css.map": "/hanzi-3000/static/css/main.8c13f333.css.map",
+    "main.c939c38a.css.map": "/hanzi-3000/static/css/main.c939c38a.css.map",
     "main.66556931.js.map": "/hanzi-3000/static/js/main.66556931.js.map"
   },
   "entrypoints": [
-    "static/css/main.8c13f333.css",
+    "static/css/main.c939c38a.css",
     "static/js/main.66556931.js"
   ]
 }
