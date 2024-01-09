@@ -3,6 +3,8 @@
 }
 
 .app {
+  position: relative;
+  min-height: 100vh;
   padding-left: 20px;
   padding-right: 20px;
   background-color: #f3f4f6;
@@ -18,4 +20,23 @@
 .app__testStarted {
     padding-top: 90px;
     padding-bottom: 50px;
+}
+
+.app__footer {
+  margin-bottom: 20px;
+  margin: 20px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: auto;
+  font-size: 0.8em;
+  color: #888;
+}
+
+.app__footer a {
+  color: #888;
+}
+
+.app__footer a:hover {
+  color: #555;
 }
