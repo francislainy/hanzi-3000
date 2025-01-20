@@ -41,8 +41,6 @@
   color: #555;
 }
 
-
-
 /* Add these styles to your existing CSS file */
 
 .button-container {
@@ -59,11 +57,13 @@
   height: 2.5rem;
   background-color: #000;
   color: #f3f4f6;
+  cursor: pointer;
   border-radius: 6px;
   font-weight: 530;
   font-size: 1.125rem;
 }
 
 .button-container button:hover {
-  background-color: #45a049;
+  background-color: #e5e5e5;
+  color: black;
 }

@@ -2,7 +2,6 @@ import {getAuth, GoogleAuthProvider, signInWithPopup, signOut} from "firebase/au
 import app from '../firebaseConfig'; // Adjust the import path as necessary
 
 const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
 
 const signInWithGoogle = async () => {
     const auth = getAuth(app);

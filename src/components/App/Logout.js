@@ -1,9 +1,11 @@
 import React from 'react';
 
-function Logout({ onLogout, isGuest }) {
+import './Logout.css';
+
+function Logout({onLogout, isGuest}) {
     return (
-        <div className="button-container">
-            {!isGuest && <button onClick={onLogout}>Logout</button>}
+        <div className="logout-container">
+            {!isGuest && <button className="logout-button" onClick={onLogout}>Logout</button>}
         </div>
     );
 }
