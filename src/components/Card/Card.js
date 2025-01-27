@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { db } from "../../firebaseConfig";
 import './Card.css';
 import Toast from "../Toast/Toast";
 
@@ -7,13 +10,25 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [memorizedCardIds, setMemorizedCardIds] = useState([]);
+  const [user, setUser] = useState(null);
+
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log("Auth state changed. Current user:", currentUser?.uid);
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleClick = (cardId) => {
     setSelectedCardIds((prevSelectedCardIds) => {
       if (prevSelectedCardIds.includes(cardId)) {
-        return prevSelectedCardIds.filter((id) => id !== cardId); // Unselect the card if it's already selected
+        return prevSelectedCardIds.filter((id) => id !== cardId);
       } else {
-        return [...prevSelectedCardIds, cardId]; // Select the card if it's not selected
+        return [...prevSelectedCardIds, cardId];
       }
     });
   };
@@ -34,9 +49,59 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
     setShowToast(true);
   };
 
-  const handleBrainClick = (cardId) => {
-    setMemorizedCardIds((prevMemorizedCardIds) => [...prevMemorizedCardIds, cardId]);
+  const handleBrainClick = async (cardId) => {
+    setMemorizedCardIds((prevMemorizedCardIds) => {
+      const updatedMemorizedCardIds = [...prevMemorizedCardIds, cardId];
+      saveMemorizedCardIds(updatedMemorizedCardIds);
+      return updatedMemorizedCardIds;
+    });
   };
+
+  const saveMemorizedCardIds = async (memorizedCardIds) => {
+    try {
+      if (user) {
+        console.log("Saving for user:", user.uid);
+        const userDoc = doc(db, "users", user.uid);
+        await setDoc(userDoc, {
+          memorizedCardIds: memorizedCardIds,
+          email: user.email,
+          lastUpdated: new Date().toISOString()
+        }, { merge: true });
+        console.log("Successfully saved memorized cards:", memorizedCardIds);
+      }
+    } catch (error) {
+      console.error("Error saving memorized card IDs:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchMemorizedCardIds = async () => {
+      try {
+        if (user) {
+          console.log("Fetching for user:", user.uid);
+          const userDoc = doc(db, "users", user.uid);
+          const docSnap = await getDoc(userDoc);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            console.log("Retrieved data:", data);
+            setMemorizedCardIds(data.memorizedCardIds || []);
+          } else {
+            console.log("No document exists, creating new one");
+            await setDoc(userDoc, {
+              memorizedCardIds: [],
+              email: user.email,
+              lastUpdated: new Date().toISOString()
+            }, { merge: true });
+            setMemorizedCardIds([]);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching memorized card IDs:", error);
+      }
+    };
+
+    fetchMemorizedCardIds();
+  }, [user]);
 
   useEffect(() => {
     if (showToast) {
@@ -45,8 +110,14 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
     }
   }, [showToast]);
 
+  const handleRevertClick = async () => {
+    setMemorizedCardIds([]);
+    await saveMemorizedCardIds([]);
+  };
+
   return (
       <div className="card__row">
+        <button onClick={handleRevertClick}>Revert to Full List</button>
         {cardList.filter(card => !memorizedCardIds.includes(card.id)).map((card) => (
             <div
                 className={`card ${selectedCardIds.includes(card.id) ? 'card--clicked' : ''}`}
