@@ -6,6 +6,7 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const [memorizedCardIds, setMemorizedCardIds] = useState([]);
 
   const handleClick = (cardId) => {
     setSelectedCardIds((prevSelectedCardIds) => {
@@ -18,7 +19,6 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
   };
 
   const handleDefClick = (character) => {
-    // const definitions = JSON.parse(character.definitionsDiacritic.replace(/'/g, '"'));
     let definitions;
     if (Array.isArray(character.definitionsDiacritic)) {
       definitions = character.definitionsDiacritic;
@@ -34,6 +34,10 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
     setShowToast(true);
   };
 
+  const handleBrainClick = (cardId) => {
+    setMemorizedCardIds((prevMemorizedCardIds) => [...prevMemorizedCardIds, cardId]);
+  };
+
   useEffect(() => {
     if (showToast) {
       const timer = setTimeout(() => setShowToast(false), 5000);
@@ -42,23 +46,26 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
   }, [showToast]);
 
   return (
-    <div className="card__row">
-      {cardList.map((card) => (
-        <div
-          className={`card ${selectedCardIds.includes(card.id) ? 'card--clicked' : ''}`}
-          onClick={() => handleClick(card.id)}
-          onMouseEnter={() => setHoveredCard(card.id)}
-          onMouseLeave={() => setHoveredCard(null)}
-          key={card.id}
-        >
-          {showToast && <Toast message={toastMessage} />}
-          <span className="card__chinese-character">{card.simplified}</span>
-          {hoveredCard === card.id && (
-            <button className="def-button" onClick={(e) => { e.stopPropagation(); handleDefClick(card); }}>Def.</button>
-          )}
-        </div>
-      ))}
-    </div>
+      <div className="card__row">
+        {cardList.filter(card => !memorizedCardIds.includes(card.id)).map((card) => (
+            <div
+                className={`card ${selectedCardIds.includes(card.id) ? 'card--clicked' : ''}`}
+                onClick={() => handleClick(card.id)}
+                onMouseEnter={() => setHoveredCard(card.id)}
+                onMouseLeave={() => setHoveredCard(null)}
+                key={card.id}
+            >
+              {showToast && <Toast message={toastMessage} />}
+              <span className="card__chinese-character">{card.simplified}</span>
+              {hoveredCard === card.id && (
+                  <>
+                    <button className="def-button" onClick={(e) => { e.stopPropagation(); handleDefClick(card); }}>Def.</button>
+                    <button className="brain-button" onClick={(e) => { e.stopPropagation(); handleBrainClick(card.id); }}>🧠</button>
+                  </>
+              )}
+            </div>
+        ))}
+      </div>
   );
 }
 

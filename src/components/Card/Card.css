@@ -54,3 +54,14 @@
     visibility: visible; /* make the button always visible on mobile */
   }
 }
+
+.brain-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: green !important; /* Set the color to green */
+}
