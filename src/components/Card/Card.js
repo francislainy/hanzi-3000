@@ -116,26 +116,30 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
   };
 
   return (
-      <div className="card__row">
-        <button onClick={handleRevertClick}>Revert to Full List</button>
-        {cardList.filter(card => !memorizedCardIds.includes(card.id)).map((card) => (
-            <div
-                className={`card ${selectedCardIds.includes(card.id) ? 'card--clicked' : ''}`}
-                onClick={() => handleClick(card.id)}
-                onMouseEnter={() => setHoveredCard(card.id)}
-                onMouseLeave={() => setHoveredCard(null)}
-                key={card.id}
-            >
-              {showToast && <Toast message={toastMessage} />}
-              <span className="card__chinese-character">{card.simplified}</span>
-              {hoveredCard === card.id && (
-                  <>
-                    <button className="def-button" onClick={(e) => { e.stopPropagation(); handleDefClick(card); }}>Def.</button>
-                    <button className="brain-button" onClick={(e) => { e.stopPropagation(); handleBrainClick(card.id); }}>🧠</button>
-                  </>
-              )}
-            </div>
-        ))}
+      <div className="card__container">
+        <div className="card__buttons">
+          <button className="revert-button" onClick={handleRevertClick}>Revert to Full List</button>
+        </div>
+        <div className="card__row">
+          {cardList.filter(card => !memorizedCardIds.includes(card.id)).map((card) => (
+              <div
+                  className={`card ${selectedCardIds.includes(card.id) ? 'card--clicked' : ''}`}
+                  onClick={() => handleClick(card.id)}
+                  onMouseEnter={() => setHoveredCard(card.id)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                  key={card.id}
+              >
+                {showToast && <Toast message={toastMessage} />}
+                <span className="card__chinese-character">{card.simplified}</span>
+                {hoveredCard === card.id && (
+                    <>
+                      <button className="def-button" onClick={(e) => { e.stopPropagation(); handleDefClick(card); }}>Def.</button>
+                      <button className="brain-button" onClick={(e) => { e.stopPropagation(); handleBrainClick(card.id); }}>🧠</button>
+                    </>
+                )}
+              </div>
+          ))}
+        </div>
       </div>
   );
 }
