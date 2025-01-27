@@ -39,6 +39,10 @@
   transform: translate(0, 0); /* Ensure alignment is correct */
 }
 
+.revert-button {
+  margin: 10px;
+}
+
 /* Media query for smaller screens */
 @media (max-width: 600px) {
   .card__row {
