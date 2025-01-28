@@ -23,6 +23,18 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
     return () => unsubscribe();
   }, []);
 
+  // Save selected cards and score to Firebase whenever they change
+  useEffect(() => {
+    if (user) {
+      const userDoc = doc(db, "users", user.uid);
+      setDoc(userDoc, {
+        selectedCardIds: selectedCardIds,
+        score: selectedCardIds.length,
+        lastUpdated: new Date().toISOString()
+      }, { merge: true });
+    }
+  }, [selectedCardIds, user]);
+
   const handleClick = (cardId) => {
     setSelectedCardIds((prevSelectedCardIds) => {
       if (prevSelectedCardIds.includes(cardId)) {
@@ -56,7 +68,6 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
       return updatedMemorizedCardIds;
     });
 
-    // Update selectedCardIds state
     setSelectedCardIds((prevSelectedCardIds) => {
       if (prevSelectedCardIds.includes(cardId)) {
         return prevSelectedCardIds.filter((id) => id !== cardId);
@@ -69,7 +80,7 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
   const saveMemorizedCardIds = async (memorizedCardIds) => {
     try {
       if (user) {
-        console.log("Saving for user:", user.uid);
+        console.log("Saving memorized cards for user:", user.uid);
         const userDoc = doc(db, "users", user.uid);
         await setDoc(userDoc, {
           memorizedCardIds: memorizedCardIds,
@@ -84,33 +95,31 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
   };
 
   useEffect(() => {
-    const fetchMemorizedCardIds = async () => {
+    const fetchUserData = async () => {
       try {
         if (user) {
-          console.log("Fetching for user:", user.uid);
+          console.log("Fetching data for user:", user.uid);
           const userDoc = doc(db, "users", user.uid);
           const docSnap = await getDoc(userDoc);
+
           if (docSnap.exists()) {
             const data = docSnap.data();
-            console.log("Retrieved data:", data);
+            console.log("Retrieved user data:", data);
+            // Load memorized cards from Firebase
             setMemorizedCardIds(data.memorizedCardIds || []);
-          } else {
-            console.log("No document exists, creating new one");
-            await setDoc(userDoc, {
-              memorizedCardIds: [],
-              email: user.email,
-              lastUpdated: new Date().toISOString()
-            }, { merge: true });
-            setMemorizedCardIds([]);
+            // Load selected cards from Firebase
+            if (data.selectedCardIds) {
+              setSelectedCardIds(data.selectedCardIds);
+            }
           }
         }
       } catch (error) {
-        console.error("Error fetching memorized card IDs:", error);
+        console.error("Error fetching user data:", error);
       }
     };
 
-    fetchMemorizedCardIds();
-  }, [user]);
+    fetchUserData();
+  }, [user, setSelectedCardIds]);
 
   useEffect(() => {
     if (showToast) {
@@ -122,26 +131,33 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
   const handleRevertClick = async () => {
     try {
       if (user) {
-        console.log("Resetting memorized cards for user:", user.uid);
+        console.log("Resetting data for user:", user.uid);
         const userDoc = doc(db, "users", user.uid);
         await setDoc(userDoc, {
           memorizedCardIds: [],
+          selectedCardIds: [],
+          score: 0,
           email: user.email,
           lastUpdated: new Date().toISOString()
         }, { merge: true });
-        console.log("Successfully reset memorized cards.");
+        console.log("Successfully reset user data");
         setMemorizedCardIds([]);
-        setSelectedCardIds([]); // Reset the selected cards locally
+        setSelectedCardIds([]);
+      }
+      else {
+        setMemorizedCardIds([]);
+        setSelectedCardIds([]);
       }
     } catch (error) {
-      console.error("Error resetting memorized card IDs:", error);
+      console.error("Error resetting user data:", error);
     }
   };
 
   return (
       <div className="card__container">
         <div className="card__buttons">
-          <button className="revert-button" onClick={handleRevertClick}>Revert to Full List</button>
+          <button className="revert-button" onClick={handleRevertClick}>Start Again</button>
+          <div className="score-display">Score: {selectedCardIds.length}</div>
         </div>
         <div className="card__row">
           {cardList.filter(card => !memorizedCardIds.includes(card.id)).map((card) => (
