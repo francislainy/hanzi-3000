@@ -55,6 +55,15 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
       saveMemorizedCardIds(updatedMemorizedCardIds);
       return updatedMemorizedCardIds;
     });
+
+    // Update selectedCardIds state
+    setSelectedCardIds((prevSelectedCardIds) => {
+      if (prevSelectedCardIds.includes(cardId)) {
+        return prevSelectedCardIds.filter((id) => id !== cardId);
+      } else {
+        return [...prevSelectedCardIds, cardId];
+      }
+    });
   };
 
   const saveMemorizedCardIds = async (memorizedCardIds) => {
@@ -111,8 +120,22 @@ function Card({ cardList, selectedCardIds, setSelectedCardIds }) {
   }, [showToast]);
 
   const handleRevertClick = async () => {
-    setMemorizedCardIds([]);
-    await saveMemorizedCardIds([]);
+    try {
+      if (user) {
+        console.log("Resetting memorized cards for user:", user.uid);
+        const userDoc = doc(db, "users", user.uid);
+        await setDoc(userDoc, {
+          memorizedCardIds: [],
+          email: user.email,
+          lastUpdated: new Date().toISOString()
+        }, { merge: true });
+        console.log("Successfully reset memorized cards.");
+        setMemorizedCardIds([]);
+        setSelectedCardIds([]); // Reset the selected cards locally
+      }
+    } catch (error) {
+      console.error("Error resetting memorized card IDs:", error);
+    }
   };
 
   return (
