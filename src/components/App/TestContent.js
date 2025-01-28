@@ -9,7 +9,9 @@ function TestContent({
                          setCurrentPage,
                          currentCards,
                          selectedCardIds,
-                         setSelectedCardIds
+                         setSelectedCardIds,
+    score,
+    setScore
                      }) {
     return (
         <>
@@ -24,6 +26,8 @@ function TestContent({
                         selectedCardIds={selectedCardIds}
                         setSelectedCardIds={setSelectedCardIds}
                         cardList={currentCards}
+                        score={score}
+                        setScore={setScore}
                     />
                 </>
             )}

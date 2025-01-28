@@ -20,6 +20,7 @@ function App() {
   );
   const [bannerButtonText, setBannerButtonText] = useState("Start Test");
   const [selectedCardIds, setSelectedCardIds] = useState([]);
+  const [score,setScore] = useState(0)
   const CARDS_PER_PAGE = 150;
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastCard = currentPage * CARDS_PER_PAGE;
@@ -63,7 +64,7 @@ function App() {
 
   const handleSeeResults = () => {
     setBannerDescription(
-        `You know ${selectedCardIds.length} out of ${characterList.length} characters.`
+        `You know ${score} out of ${characterList.length} characters.`
     );
     setBannerButtonText("Start Again");
     setHasTestStarted(false);
@@ -77,6 +78,7 @@ function App() {
     setBannerButtonText("See Results");
     setSelectedCardIds([]);
     setCurrentPage(1);
+    setScore(0);
   };
 
   const handleBannerButtonClick = bannerButtonText === "Start Again"
@@ -109,6 +111,8 @@ function App() {
                   currentCards={currentCards}
                   selectedCardIds={selectedCardIds}
                   setSelectedCardIds={setSelectedCardIds}
+                  score={score}
+                  setScore={setScore}
               />
               {!hasTestStarted && <Footer />}
             </>
