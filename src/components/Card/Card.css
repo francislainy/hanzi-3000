@@ -1,3 +1,8 @@
+/*.card__container {*/
+/*  overflow-x: auto; !* Enable horizontal scrolling *!*/
+/*  white-space: nowrap; !* Prevent line breaks *!*/
+/*}*/
+
 .card__row {
   display: grid;
   grid-template-columns: repeat(6, 1fr); /* Smaller cards for smaller screens */
@@ -43,15 +48,21 @@
   margin: 10px;
 }
 
+.score-display {
+  margin-bottom: 8px;
+}
+
 /* Media query for smaller screens */
 @media (max-width: 600px) {
   .card__row {
-    grid-template-columns: repeat(5, 1fr); /* Smaller cards for smaller screens */
+    grid-template-columns: repeat(3, 1fr); /* Smaller cards for smaller screens */
+    gap: 10px 20px; /* Smaller top and bottom gap, same left and right gap */
   }
 
   .card {
-    max-width: 80px; /* Smaller max width */
-    padding: 5px; /* Reduce padding */
+    max-width: 70px; /* Increase max width */
+    height: 80px; /* Set a fixed height */
+    padding: 10px; /* Adjust padding */
   }
 
   .card__chinese-character {

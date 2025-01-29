@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d6a1a2b-a3c0-4aca-a856-6946bb32ec36" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/components/App/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Card/Card.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Card/Card.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +103,7 @@
       <workItem from="1737944978087" duration="6612000" />
       <workItem from="1738035600966" duration="7519000" />
       <workItem from="1738162883314" duration="114000" />
-      <workItem from="1738163009480" duration="1099000" />
+      <workItem from="1738163009480" duration="4019000" />
     </task>
     <servers />
   </component>
@@ -118,6 +119,11 @@
     <option name="TAB_STATES">
       <map>
         <entry key="35022e95-7517-4169-ac17-0b1a8ddff229">
+          <value>
+            <State />
+          </value>
+        </entry>
+        <entry key="MAIN">
           <value>
             <State />
           </value>
