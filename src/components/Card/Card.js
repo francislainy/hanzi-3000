@@ -1,15 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {doc, setDoc, getDoc} from "firebase/firestore";
+import React, {useEffect, useState} from 'react';
+import {doc, getDoc, setDoc} from "firebase/firestore";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {db} from "../../firebaseConfig";
 import './Card.css';
 import Toast from "../Toast/Toast";
 
-function Card({cardList, selectedCardIds, setSelectedCardIds, score, setScore}) {
+function Card({cardList, selectedCardIds, setSelectedCardIds, memorizedCardIds, setMemorizedCardIds, score, setScore}) {
     const [hoveredCard, setHoveredCard] = useState(null);
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
-    const [memorizedCardIds, setMemorizedCardIds] = useState([]);
     const [user, setUser] = useState(null);
 
     const auth = getAuth();
@@ -30,10 +29,11 @@ function Card({cardList, selectedCardIds, setSelectedCardIds, score, setScore}) 
             setDoc(userDoc, {
                 selectedCardIds: selectedCardIds,
                 score: score,
-                lastUpdated: new Date().toISOString()
+                lastUpdated: new Date().toISOString(),
+                memorizedCardIds: memorizedCardIds,
             }, {merge: true});
         }
-    }, [selectedCardIds, user]);
+    }, [selectedCardIds, memorizedCardIds, user]);
 
     const handleClick = (cardId) => {
         setSelectedCardIds((prevSelectedCardIds) => {
@@ -45,6 +45,16 @@ function Card({cardList, selectedCardIds, setSelectedCardIds, score, setScore}) 
                 return [...prevSelectedCardIds, cardId];
             }
         });
+    };
+
+    const handleBrainClick = async (cardId) => {
+        setMemorizedCardIds((prevMemorizedCardIds) => {
+            return [...prevMemorizedCardIds, cardId];
+        });
+
+        if (!selectedCardIds.includes(cardId)) {
+            setScore((prevScore) => prevScore + 1);
+        }
     };
 
     const handleDefClick = (character) => {
@@ -61,36 +71,6 @@ function Card({cardList, selectedCardIds, setSelectedCardIds, score, setScore}) 
 
         setToastMessage(`${character.simplified} (${character.pinyinDiacritic}): ${definitions.join(', ')}`);
         setShowToast(true);
-    };
-
-    const handleBrainClick = async (cardId) => {
-        setMemorizedCardIds((prevMemorizedCardIds) => {
-            const updatedMemorizedCardIds = [...prevMemorizedCardIds, cardId];
-            saveMemorizedCardIds(updatedMemorizedCardIds);
-            return updatedMemorizedCardIds;
-        });
-
-        if (!selectedCardIds.includes(cardId)) {
-            setScore((prevScore) => prevScore + 1);
-        }
-
-    };
-
-    const saveMemorizedCardIds = async (memorizedCardIds) => {
-        try {
-            if (user) {
-                console.log("Saving memorized cards for user:", user.uid);
-                const userDoc = doc(db, "users", user.uid);
-                await setDoc(userDoc, {
-                    memorizedCardIds: memorizedCardIds,
-                    email: user.email,
-                    lastUpdated: new Date().toISOString()
-                }, {merge: true});
-                console.log("Successfully saved memorized cards:", memorizedCardIds);
-            }
-        } catch (error) {
-            console.error("Error saving memorized card IDs:", error);
-        }
     };
 
     useEffect(() => {

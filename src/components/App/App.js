@@ -20,6 +20,7 @@ function App() {
   );
   const [bannerButtonText, setBannerButtonText] = useState("Start Test");
   const [selectedCardIds, setSelectedCardIds] = useState([]);
+  const [memorizedCardIds, setMemorizedCardIds] = useState([]);
   const [score,setScore] = useState(0)
   const CARDS_PER_PAGE = 150;
   const [currentPage, setCurrentPage] = useState(1);
@@ -111,6 +112,8 @@ function App() {
                   currentCards={currentCards}
                   selectedCardIds={selectedCardIds}
                   setSelectedCardIds={setSelectedCardIds}
+                  memorizedCardIds={memorizedCardIds}
+                  setMemorizedCardIds={setMemorizedCardIds}
                   score={score}
                   setScore={setScore}
               />

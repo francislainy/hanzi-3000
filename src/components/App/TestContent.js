@@ -10,8 +10,10 @@ function TestContent({
                          currentCards,
                          selectedCardIds,
                          setSelectedCardIds,
-    score,
-    setScore
+                         memorizedCardIds,
+                         setMemorizedCardIds,
+                         score,
+                         setScore
                      }) {
     return (
         <>
@@ -25,6 +27,8 @@ function TestContent({
                     <Card
                         selectedCardIds={selectedCardIds}
                         setSelectedCardIds={setSelectedCardIds}
+                        memorizedCardIds={memorizedCardIds}
+                        setMemorizedCardIds={setMemorizedCardIds}
                         cardList={currentCards}
                         score={score}
                         setScore={setScore}
