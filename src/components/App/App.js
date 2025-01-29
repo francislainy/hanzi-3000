@@ -78,6 +78,7 @@ function App() {
     );
     setBannerButtonText("See Results");
     setSelectedCardIds([]);
+    setMemorizedCardIds([])
     setCurrentPage(1);
     setScore(0);
   };
