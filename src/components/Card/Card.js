@@ -36,15 +36,17 @@ function Card({cardList, selectedCardIds, setSelectedCardIds, memorizedCardIds, 
     }, [selectedCardIds, memorizedCardIds, user]);
 
     const handleClick = (cardId) => {
-        setSelectedCardIds((prevSelectedCardIds) => {
-            if (prevSelectedCardIds.includes(cardId)) {
-                setScore((prevScore) => prevScore - 1);
-                return prevSelectedCardIds.filter((id) => id !== cardId);
-            } else {
-                setScore((prevScore) => prevScore + 1);
-                return [...prevSelectedCardIds, cardId];
-            }
-        });
+        const isCurrentlySelected = selectedCardIds.includes(cardId);
+
+        if (isCurrentlySelected) {
+            // If card is already selected, deselect it and decrease score
+            setSelectedCardIds(prev => prev.filter(id => id !== cardId));
+            setScore(prev => Math.max(prev - 1, 0));
+        } else {
+            // If card is not selected, select it and increase score
+            setSelectedCardIds(prev => [...prev, cardId]);
+            setScore(prev => prev + 1);
+        }
     };
 
     const handleBrainClick = async (cardId) => {
