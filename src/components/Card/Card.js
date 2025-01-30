@@ -5,9 +5,9 @@ import {db} from "../../firebaseConfig";
 import './Card.css';
 import Toast from "../Toast/Toast";
 
-function Card({cardList, selectedCardIds: initialSelectedCardIds, setSelectedCardIds: parentSetSelectedCardIds,
-                  memorizedCardIds: initialMemorizedCardIds, setMemorizedCardIds: parentSetMemorizedCardIds,
-                  score: initialScore, setScore: parentSetScore}) {
+function Card({cardList, setSelectedCardIds: parentSetSelectedCardIds,
+                  setMemorizedCardIds: parentSetMemorizedCardIds,
+                  setScore: parentSetScore}) {
 
     const [hoveredCard, setHoveredCard] = useState(null);
     const [showToast, setShowToast] = useState(false);
