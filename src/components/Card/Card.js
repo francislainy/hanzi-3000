@@ -28,9 +28,9 @@ function Card({cardList, selectedCardIds, setSelectedCardIds, memorizedCardIds, 
             const userDoc = doc(db, "users", user.uid);
             setDoc(userDoc, {
                 selectedCardIds: selectedCardIds,
+                memorizedCardIds: memorizedCardIds,
                 score: score,
                 lastUpdated: new Date().toISOString(),
-                memorizedCardIds: memorizedCardIds,
             }, {merge: true});
         }
     }, [selectedCardIds, memorizedCardIds, user]);
@@ -100,7 +100,7 @@ function Card({cardList, selectedCardIds, setSelectedCardIds, memorizedCardIds, 
         };
 
         fetchUserData();
-    }, [user, setSelectedCardIds]);
+    }, [user]);
 
     useEffect(() => {
         if (showToast) {

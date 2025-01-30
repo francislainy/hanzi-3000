@@ -1,15 +1,44 @@
-import {getAuth, GoogleAuthProvider, signInWithPopup, signOut} from "firebase/auth";
-import app from '../firebaseConfig'; // Adjust the import path as necessary
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { db } from '../firebaseConfig';
 
-const auth = getAuth(app);
+const auth = getAuth();
+
+const createInitialUserDocument = async (user) => {
+    const userRef = doc(db, "users", user.uid);
+
+    // Check if the document already exists
+    const docSnap = await getDoc(userRef);
+
+    if (!docSnap.exists()) {
+        // Create initial user document with default values
+        await setDoc(userRef, {
+            email: user.email,
+            selectedCardIds: [],
+            memorizedCardIds: [],
+            score: 0,
+            createdAt: new Date().toISOString(),
+            lastUpdated: new Date().toISOString()
+        });
+    }
+};
 
 const signInWithGoogle = async () => {
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({
-        prompt: "select_account", // Ensures account selection every time
-    });
-    return await signInWithPopup(auth, provider);
+    try {
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({
+            prompt: "select_account"
+        });
+
+        const result = await signInWithPopup(auth, provider);
+        // Create or verify user document after successful sign-in
+        await createInitialUserDocument(result.user);
+
+        return result;
+    } catch (error) {
+        console.error('Error during sign-in:', error);
+        throw error;
+    }
 };
 
 const signOutFromGoogle = async () => {
@@ -18,8 +47,8 @@ const signOutFromGoogle = async () => {
         console.log('User signed out successfully');
     } catch (error) {
         console.error('Error during sign-out:', error);
+        throw error;
     }
 };
 
 export { signInWithGoogle, signOutFromGoogle };
-
