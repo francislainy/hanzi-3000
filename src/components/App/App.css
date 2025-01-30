@@ -40,3 +40,50 @@
 .app__footer a:hover {
   color: #555;
 }
+
+/* Add these styles to your existing CSS file */
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.button-container button {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  height: 2.5rem;
+  background-color: #000;
+  color: #f3f4f6;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: 530;
+  font-size: 1.125rem;
+}
+
+.button-container button:hover {
+  background-color: #e5e5e5;
+  color: black;
+}
+
+.guest-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.guest-actions button {
+  background-color: #f44336; /* Red to differentiate from Start Test */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.guest-actions button:hover {
+  background-color: #d32f2f;
+}

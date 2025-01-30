@@ -1,84 +1,132 @@
+import React, { useState } from 'react';
 import './App.css';
-import { useState } from 'react';
 import characterList from '../../characterList.json';
-import Banner from "../Banner/Banner";
-import Card from "../Card/Card";
-import Pagination from '../Pagination/Pagination';
+import Authentication from './Authentication';
+import Logout from './Logout';
+import TestBanner from './TestBanner';
+import TestContent from './TestContent';
+import Footer from './Footer';
+import { signInWithGoogle, signOutFromGoogle } from "../AuthService";
+import { getAuth } from "firebase/auth";
+import app from '../../firebaseConfig';
+
 function App() {
-
-  const TEST_STATES = {
-    'start': {
-      bannerDescription: 'Test your knowledge of Chinese characters in this fun and interactive game. Click the button below to start the test.',
-      bannerButtonText: 'Start Test',
-      bannerTitle: 'Chinese Character Test',
-    },
-    'inProgress': {
-      bannerDescription: "Click on the characters you know. Once you're done, click the button below to see your total.",
-      bannerButtonText: 'See Results',
-    },
-    'results': {
-      bannerDescription: '', // This will be updated dynamically based on selected cards
-      bannerButtonText: 'Start Again',
-    },
-  };
-
-  const [hasTestStarted, setHasTestStarted] = useState(false)
-  const [bannerTitle, setBannerTitle] = useState(TEST_STATES.start.bannerTitle)
-  const [bannerDescription, setBannerDescription] = useState(TEST_STATES.start.bannerDescription)
-  const [bannerButtonText, setBannerButtonText] = useState(TEST_STATES.start.bannerButtonText)
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isGuest, setIsGuest] = useState(false);
+  const [hasTestStarted, setHasTestStarted] = useState(false);
+  const [bannerTitle, setBannerTitle] = useState("Chinese Character Test");
+  const [bannerDescription, setBannerDescription] = useState(
+      'Test your knowledge of Chinese characters in this fun and interactive game. Click the button below to start the test.'
+  );
+  const [bannerButtonText, setBannerButtonText] = useState("Start Test");
   const [selectedCardIds, setSelectedCardIds] = useState([]);
-
+  const [memorizedCardIds, setMemorizedCardIds] = useState([]);
+  const [score,setScore] = useState(0)
   const CARDS_PER_PAGE = 150;
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastCard = currentPage * CARDS_PER_PAGE;
   const indexOfFirstCard = indexOfLastCard - CARDS_PER_PAGE;
   const currentCards = characterList.slice(indexOfFirstCard, indexOfLastCard);
-
-  const handleStartTest = () => {
-    setHasTestStarted(true)
-    setBannerDescription(TEST_STATES.inProgress.bannerDescription)
-    setBannerButtonText(TEST_STATES.inProgress.bannerButtonText)
-  }
-
-  const handleSeeResults = () => {
-    setBannerDescription(`You know ${selectedCardIds.length} out of ${characterList.length} characters.`)
-    setBannerButtonText(TEST_STATES.results.bannerButtonText)
-    setHasTestStarted(false)
-  }
-
-  const handleStartAgain = () => {
-    setHasTestStarted(true)
-    setBannerDescription(TEST_STATES.inProgress.bannerDescription)
-    setBannerButtonText(TEST_STATES.inProgress.bannerButtonText)
-    setSelectedCardIds([])
-    setCurrentPage(1)
-  }
-
   const totalPages = Math.ceil(characterList.length / CARDS_PER_PAGE);
 
+  const handleLoginWithGoogle = async () => {
+    try {
+      await signInWithGoogle();
+      setIsUserLoggedIn(true);
+      setIsGuest(false);
+    } catch (error) {
+      console.error("Error logging in with Google", error);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      const auth = getAuth(app);
+      await auth.signOut();
+      setIsUserLoggedIn(false);
+      setIsGuest(false);
+    } catch (error) {
+      console.error("Error logging out from Google", error);
+    }
+  };
+
+  const handleContinueAsGuest = () => {
+    setIsUserLoggedIn(true);
+    setIsGuest(true);
+  };
+
+  const handleStartTest = () => {
+    setHasTestStarted(true);
+    setBannerDescription(
+        "Click on the characters you know. Once you're done, click the button below to see your total."
+    );
+    setBannerButtonText("See Results");
+  };
+
+  const handleSeeResults = () => {
+    setBannerDescription(
+        `You know ${score} out of ${characterList.length} characters.`
+    );
+    setBannerButtonText("Start Again");
+    setHasTestStarted(false);
+  };
+
+  const handleStartAgain = () => {
+    setHasTestStarted(true);
+    setBannerDescription(
+        "Click on the characters you know. Once you're done, click the button below to see your total."
+    );
+    setBannerButtonText("See Results");
+    setSelectedCardIds([]);
+    setMemorizedCardIds([])
+    setCurrentPage(1);
+    setScore(0);
+  };
+
+  const handleBannerButtonClick = bannerButtonText === "Start Again"
+      ? handleStartAgain
+      : hasTestStarted
+          ? handleSeeResults
+          : handleStartTest;
+
   return (
-    <div className={hasTestStarted ? "app app__testStarted" : "app"}>
-      <Banner
-        title={bannerTitle}
-        description={bannerDescription}
-        buttonText={bannerButtonText}
-        handleStartTest={bannerButtonText === "Start Again" ? handleStartAgain : (hasTestStarted ? handleSeeResults : handleStartTest)}
-      />
-      {hasTestStarted && <>
-        <Pagination
-          totalPages={totalPages}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage} />
-        <Card
-          selectedCardIds={selectedCardIds}
-          setSelectedCardIds={setSelectedCardIds}
-          cardList={currentCards} />
-      </>
-      }
-      {!hasTestStarted && <footer className="app__footer">
-        Made with &hearts; by <a href="https://www.linkedin.com/in/francislainycampos/" target="_blank" rel="noopener noreferrer">Francislainy Campos</a>
-      </footer>}
-    </div>
+      <div className={hasTestStarted ? "app app__testStarted" : "app"}>
+        {isUserLoggedIn ? (
+            <>
+              <Logout onLogout={handleLogout} isGuest={isGuest} />
+              <TestBanner
+                  bannerTitle={bannerTitle}
+                  bannerDescription={bannerDescription}
+                  bannerButtonText={bannerButtonText}
+                  onButtonClick={handleBannerButtonClick}
+                  isGuest={isGuest}
+                  onBackToLogin={() => {
+                    setIsUserLoggedIn(false);
+                    setIsGuest(false);
+                  }}
+              />
+              <TestContent
+                  hasTestStarted={hasTestStarted}
+                  totalPages={totalPages}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  currentCards={currentCards}
+                  selectedCardIds={selectedCardIds}
+                  setSelectedCardIds={setSelectedCardIds}
+                  memorizedCardIds={memorizedCardIds}
+                  setMemorizedCardIds={setMemorizedCardIds}
+                  score={score}
+                  setScore={setScore}
+              />
+              {!hasTestStarted && <Footer />}
+            </>
+        ) : (
+            <Authentication
+                onLoginWithGoogle={handleLoginWithGoogle}
+                onContinueAsGuest={handleContinueAsGuest}
+            />
+        )}
+      </div>
   );
 }
 
