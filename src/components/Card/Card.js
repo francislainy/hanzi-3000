@@ -22,56 +22,59 @@ function Card({cardList, selectedCardIds: initialSelectedCardIds, setSelectedCar
 
     const auth = getAuth();
 
-    // Reset states when auth state changes
+    // Reset all states to initial values
+    const resetToInitialState = () => {
+        setLocalSelectedCardIds([]);
+        setLocalMemorizedCardIds([]);
+        setLocalScore(0);
+        parentSetSelectedCardIds([]);
+        parentSetMemorizedCardIds([]);
+        parentSetScore(0);
+    };
+
+    // Auth state change handler
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             setLoading(true);
             console.log("Auth state changed. Current user:", currentUser?.uid);
 
-            // Reset states first
-            setLocalSelectedCardIds([]);
-            setLocalMemorizedCardIds([]);
-            setLocalScore(0);
-            parentSetSelectedCardIds([]);
-            parentSetMemorizedCardIds([]);
-            parentSetScore(0);
+            // Always reset states first
+            resetToInitialState();
 
             if (currentUser) {
                 // If user is logged in, fetch their data
-                const userDoc = doc(db, "users", currentUser.uid);
-                const docSnap = await getDoc(userDoc);
+                try {
+                    const userDoc = doc(db, "users", currentUser.uid);
+                    const docSnap = await getDoc(userDoc);
 
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    console.log("Retrieved user data for", currentUser.uid, ":", data);
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        console.log("Retrieved user data for", currentUser.uid, ":", data);
 
-                    // Update states with user's data
-                    setLocalSelectedCardIds(data.selectedCardIds || []);
-                    setLocalMemorizedCardIds(data.memorizedCardIds || []);
-                    setLocalScore(data.score || 0);
-                    parentSetSelectedCardIds(data.selectedCardIds || []);
-                    parentSetMemorizedCardIds(data.memorizedCardIds || []);
-                    parentSetScore(data.score || 0);
-                } else {
-                    // Create new document for first-time users
-                    await setDoc(userDoc, {
-                        email: currentUser.email,
-                        selectedCardIds: [],
-                        memorizedCardIds: [],
-                        score: 0,
-                        createdAt: new Date().toISOString(),
-                        lastUpdated: new Date().toISOString()
-                    });
+                        // Update states with user's data
+                        setLocalSelectedCardIds(data.selectedCardIds || []);
+                        setLocalMemorizedCardIds(data.memorizedCardIds || []);
+                        setLocalScore(data.score || 0);
+                        parentSetSelectedCardIds(data.selectedCardIds || []);
+                        parentSetMemorizedCardIds(data.memorizedCardIds || []);
+                        parentSetScore(data.score || 0);
+                    } else {
+                        // Create new document for first-time users
+                        await setDoc(userDoc, {
+                            email: currentUser.email,
+                            selectedCardIds: [],
+                            memorizedCardIds: [],
+                            score: 0,
+                            createdAt: new Date().toISOString(),
+                            lastUpdated: new Date().toISOString()
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error loading user data:", error);
+                    resetToInitialState(); // Reset on error
                 }
-            } else {
-                // For guest users, use initial props
-                setLocalSelectedCardIds(initialSelectedCardIds);
-                setLocalMemorizedCardIds(initialMemorizedCardIds);
-                setLocalScore(initialScore);
-                parentSetSelectedCardIds(initialSelectedCardIds);
-                parentSetMemorizedCardIds(initialMemorizedCardIds);
-                parentSetScore(initialScore);
             }
+            // If user is null (guest), states are already reset
 
             setUser(currentUser);
             setLoading(false);
@@ -84,19 +87,23 @@ function Card({cardList, selectedCardIds: initialSelectedCardIds, setSelectedCar
     useEffect(() => {
         const saveUserData = async () => {
             if (user && !loading) {
-                const userDoc = doc(db, "users", user.uid);
-                await setDoc(userDoc, {
-                    email: user.email,
-                    selectedCardIds: localSelectedCardIds,
-                    memorizedCardIds: localMemorizedCardIds,
-                    score: localScore,
-                    lastUpdated: new Date().toISOString()
-                }, {merge: true});
-                console.log("Saved data for user", user.uid, ":", {
-                    selectedCardIds: localSelectedCardIds,
-                    memorizedCardIds: localMemorizedCardIds,
-                    score: localScore
-                });
+                try {
+                    const userDoc = doc(db, "users", user.uid);
+                    await setDoc(userDoc, {
+                        email: user.email,
+                        selectedCardIds: localSelectedCardIds,
+                        memorizedCardIds: localMemorizedCardIds,
+                        score: localScore,
+                        lastUpdated: new Date().toISOString()
+                    }, {merge: true});
+                    console.log("Saved data for user", user.uid, ":", {
+                        selectedCardIds: localSelectedCardIds,
+                        memorizedCardIds: localMemorizedCardIds,
+                        score: localScore
+                    });
+                } catch (error) {
+                    console.error("Error saving user data:", error);
+                }
             }
         };
 
@@ -148,13 +155,8 @@ function Card({cardList, selectedCardIds: initialSelectedCardIds, setSelectedCar
     };
 
     const handleRevertClick = async () => {
-        // Reset states
-        setLocalMemorizedCardIds([]);
-        setLocalSelectedCardIds([]);
-        setLocalScore(0);
-        parentSetMemorizedCardIds([]);
-        parentSetSelectedCardIds([]);
-        parentSetScore(0);
+        // Reset all states
+        resetToInitialState();
 
         // If user is authenticated, update Firebase
         if (user) {
