@@ -91,12 +91,7 @@ function App() {
 
   return (
       <div className={hasTestStarted ? "app app__testStarted" : "app"}>
-        {!isUserLoggedIn ? (
-            <Authentication
-                onLoginWithGoogle={handleLoginWithGoogle}
-                onContinueAsGuest={handleContinueAsGuest}
-            />
-        ) : (
+        {isUserLoggedIn ? (
             <>
               <Logout onLogout={handleLogout} isGuest={isGuest} />
               <TestBanner
@@ -104,6 +99,11 @@ function App() {
                   bannerDescription={bannerDescription}
                   bannerButtonText={bannerButtonText}
                   onButtonClick={handleBannerButtonClick}
+                  isGuest={isGuest}
+                  onBackToLogin={() => {
+                    setIsUserLoggedIn(false);
+                    setIsGuest(false);
+                  }}
               />
               <TestContent
                   hasTestStarted={hasTestStarted}
@@ -120,6 +120,11 @@ function App() {
               />
               {!hasTestStarted && <Footer />}
             </>
+        ) : (
+            <Authentication
+                onLoginWithGoogle={handleLoginWithGoogle}
+                onContinueAsGuest={handleContinueAsGuest}
+            />
         )}
       </div>
   );

@@ -67,3 +67,23 @@
   background-color: #e5e5e5;
   color: black;
 }
+
+.guest-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.guest-actions button {
+  background-color: #f44336; /* Red to differentiate from Start Test */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.guest-actions button:hover {
+  background-color: #d32f2f;
+}
